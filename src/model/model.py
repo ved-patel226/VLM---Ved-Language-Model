@@ -5,7 +5,7 @@ except ImportError:
 
 import torch.nn as nn
 import torch
-
+import math
 
 class VLM(nn.Module):
     def __init__(self, config):
@@ -26,6 +26,26 @@ class VLM(nn.Module):
         self.lm_head = nn.Linear(config["n_embd"], config["vocab_size"], bias=False)
 
         self.lm_head.weight = self.wte.weight
+
+        # init weights prevents std=1.0 instead of smaller 0.02
+
+        self.apply(self._init_weights)
+
+        for block in self.blocks:
+            nn.init.normal_(
+                block.attn.proj.weight, mean=0.0, std=0.02 / math.sqrt(2 * config["n_layer"])
+            )
+            nn.init.normal_(
+                block.mlp[-1].weight, mean=0.0, std=0.02 / math.sqrt(2 * config["n_layer"])
+            )
+        
+    def _init_weights(self, module):
+        if isinstance(module, nn.Linear):
+            nn.init.normal_(module.weight, mean=0.0, std=0.02)
+            if module.bias is not None:
+                nn.init.zeros_(module.bias)
+        elif isinstance(module, nn.Embedding):
+            nn.init.normal_(module.weight, mean=0.0, std=0.02)
 
     def forward(self, idx):
         # for block in self.blocks:
