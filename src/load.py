@@ -97,7 +97,7 @@ def top_tokens(model, tokenizer, prompt, device):
         print(f"{token!r:20} {p.item():.6f}")
 
 if __name__ == "__main__":
-    model = ModelLoader("ckpt_635000.pt")
+    model = ModelLoader("/home/ved/Code/Train My Own LLM/runs/sft/20260621_123307/checkpoints/sft_ckpt_49000.pt")
 
     while True:
         prompt = input("\nPrompt> ")
@@ -110,7 +110,7 @@ if __name__ == "__main__":
             model.generate(
                 prompt,
                 max_new_tokens=100,
-                temperature=0.7,
+                temperature=0.5,
                 top_k=50,
             )
         )

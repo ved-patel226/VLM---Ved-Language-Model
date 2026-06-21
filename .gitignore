@@ -5,3 +5,7 @@ __pycache__/
 runs/
 pretrain_train.bin
 pretrain_val.bin
+sft_train_mask.bin
+sft_val_mask.bin
+sft_train.bin
+sft_val.bin

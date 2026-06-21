@@ -28,3 +28,26 @@ CONFIG = {
     "weight_decay": 0.1,
     "grad_clip": 1.0,
 }
+
+SFT_CONFIG = {
+    "pretrained_ckpt": "runs/train/20260620_130243/checkpoints/ckpt_995000.pt",
+
+    "train_bin": "sft_train.bin",
+    "train_mask_bin": "sft_train_mask.bin",
+    "val_bin": "sft_val.bin",
+    "val_mask_bin": "sft_val_mask.bin",
+
+    "tensorboard_dir": "runs/sft",
+    "sample_prompts": CONFIG["sample_prompts"],
+    "sample_every": 200,
+
+    "max_lr": 2e-5,
+    "min_lr": 2e-6,
+    "warmup": 100,
+    "batch_size": 2,
+    "grad_accum": 32,
+    "max_steps": 50_000,
+
+    "weight_decay": 0.1,
+    "grad_clip": 1.0,
+}
